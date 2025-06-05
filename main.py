@@ -2,6 +2,7 @@
 # the open-source pygame library
 # throughout this file
 import pygame
+import sys
 from constants import *
 from player import Player
 from asteroids import Asteroid
@@ -25,14 +26,24 @@ def main():
     field = AsteroidField()
 
     while True:
+
+        #loop to refresh game until quit 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return
+        
         screen.fill((0,0,0))
         updatable.update(dt)
         for item in drawable:
             item.draw(screen)
+            
+        for asteroid in asteroids:
+           if player.collision(asteroid):
+                print("Game over!")
+                sys.exit()
         pygame.display.flip()
+
+        #this controls framerate 
         dt = gameClock.tick(60)/1000
 
 
